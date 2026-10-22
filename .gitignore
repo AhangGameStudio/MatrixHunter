@@ -1,0 +1,7 @@
+# Full installer (Gitee limits a single repository file to 50 MB;
+# the tracked copy is split into dist/*.part* files).
+/MatrixHunter-1.0.4.msi
+/dist/MatrixHunter-1.0.4.msi
+
+# Local temporary files
+*.tmp
