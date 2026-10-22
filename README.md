@@ -2,9 +2,9 @@
 
 > 面向授权安全测试的 Windows 桌面漏洞验证工具：确定性证据 + 本地 AI 助手 + 动态 Payload 模拟攻击。
 
-**当前版本：1.0.4** ｜ **平台：Windows 10/11 x64** ｜ **界面：WebView2 + Matrix 主题**
+**当前版本：1.0.6** ｜ **平台：Windows 10/11 x64** ｜ **界面：WebView2 + Matrix 主题**
 
-> 📦 **安装包说明：** 下载 `dist/` 下的分卷后，运行 `dist/join-installer.ps1` 会合并成完整的 `MatrixHunter-1.0.4.msi`，并自动校验 SHA256。
+> 📦 **安装包说明：** 下载 `dist/` 下的分卷后，运行 `dist/join-installer.ps1` 会合并成完整的 `MatrixHunter-1.0.6.msi`，并自动校验 SHA256。
 
 > ⚠️ **仅限授权测试。** 请只对你拥有或已获得明确书面授权的目标使用本工具。使用者需自行承担因未授权测试产生的一切法律责任。
 
@@ -162,7 +162,7 @@ AI 运行在独立的本地 sidecar 进程中：
 
 ### 安装
 
-1. 获取 `MatrixHunter-1.0.4.msi`：
+1. 获取 `MatrixHunter-1.0.6.msi`：
    - **方式一（Gitee 推荐）**：从本仓库 [`dist`](dist/) 目录下载 3 个分卷，运行 [`join-installer.ps1`](dist/join-installer.ps1) 合并。Gitee 对单个仓库文件有 50 MB 限制，因此安装包被拆成 3 个分卷，这不是安装包损坏。
    - **方式二**：从 [GitHub Releases](https://github.com/AhangGameStudio/MatrixHunter/releases) 获取完整 MSI。
 2. 双击 MSI，按向导选择安装目录。
@@ -184,9 +184,9 @@ MatrixHunter.ico   （快捷方式图标，可选）
 Gitee 社区版限制单个仓库文件最大 50 MB，而完整 MSI 约 104 MB，因此仓库中的安装包采用 3 个分卷保存：
 
 ```text
-dist/MatrixHunter-1.0.4.msi.part001
-dist/MatrixHunter-1.0.4.msi.part002
-dist/MatrixHunter-1.0.4.msi.part003
+dist/MatrixHunter-1.0.6.msi.part001
+dist/MatrixHunter-1.0.6.msi.part002
+dist/MatrixHunter-1.0.6.msi.part003
 dist/join-installer.ps1
 dist/SHA256SUMS.txt
 ```
@@ -197,10 +197,10 @@ dist/SHA256SUMS.txt
 powershell -ExecutionPolicy Bypass -File .\join-installer.ps1
 ```
 
-脚本会合并出 `dist\MatrixHunter-1.0.4.msi`，并自动校验大小和 SHA256：
+脚本会合并出 `dist\MatrixHunter-1.0.6.msi`，并自动校验大小和 SHA256：
 
 ```text
-3959F901C889CD0408B180CFD0CAF2896893FFFD35CA53820E5F6159346FB3D6
+D002E1E97AE33F3949D69531D7804543E9A879262362F8C80656AA2A7F908FB0
 ```
 
 如果哈希不一致，说明分卷下载不完整或已损坏，请重新下载。完整的 SHA256 列表见 [`dist/SHA256SUMS.txt`](dist/SHA256SUMS.txt)。
@@ -210,7 +210,7 @@ powershell -ExecutionPolicy Bypass -File .\join-installer.ps1
 ### 静默安装
 
 ```powershell
-msiexec /i MatrixHunter-1.0.4.msi INSTALLDIR=D:\MH /qn /norestart
+msiexec /i MatrixHunter-1.0.6.msi INSTALLDIR=D:\MH /qn /norestart
 ```
 
 `INSTALLDIR` 可替换为你自己的路径；不指定时安装到系统默认程序目录。
@@ -402,7 +402,7 @@ AI 的定位是“操作员 + 解释器”，不是漏洞裁判：
 
 ### AI 动态 Payload
 
-这是 1.0.4 的重点能力：让 AI 不再只“解释扫描结果”，而是根据真实攻击面动态生成 Payload 并做模拟攻击复核。
+这是 1.0.4 起引入的重点能力：让 AI 不再只“解释扫描结果”，而是根据真实攻击面动态生成 Payload 并做模拟攻击复核。
 
 #### 工作流程
 
@@ -557,6 +557,10 @@ MatrixHunter 采用严格的补天数据危害口径。TLS、响应头、CORS、
 
 当前安装包未做代码签名。请从可信来源获取，并在运行前校验文件哈希；企业环境建议先进行安全审核。
 
+**Q：AI 回复有点慢？**
+
+1.0.6 会把旧版本保存的慢速模型一次性重置为 **GLM-5.3-Flash Free**，并优先切换到响应更快的免费模型。免费模型仍受网络、并发和服务商队列影响，首次回复通常需要 1–3 秒；如果某个模型明显变慢或被限流，程序会自动切换，并把刚失败的模型冷却 10 分钟。也可以在模型菜单手动选择 GLM、MiniMax 或 DeepSeek 等较快模型。
+
 **Q：扫描很慢 / 请求很多？**
 
 使用 Quick 降低页数与请求数，减小并发，或缩小目标范围。Deep 模式会主动扩展接口、备份路径和端口，耗时明显更长。
@@ -564,6 +568,23 @@ MatrixHunter 采用严格的补天数据危害口径。TLS、响应头、CORS、
 ---
 
 ## 更新日志
+
+### 1.0.6
+
+- 修复升级后仍然沿用旧版慢速模型的问题：首次启动会把旧配置中的 `preferred_model` 一次性重置为 GLM-5.3-Flash Free，之后的手动选择会正常保留。
+- 调整免费模型优先级与故障切换顺序：GLM → MiniMax → DeepSeek → Flint，避免优先切到 Big Pickle、MiMo、Nemotron 等响应较慢的模型。
+- 新增模型冷却：刚触发限流或不可用的模型会被冷却 10 分钟，后续请求不再反复等待同一个慢/坏模型。
+- 扩大自动切换范围：除限流外，模型在当前地区不可用、上游端点不可用、服务暂时不可用等错误也会自动切换，不再显示红色报错。
+- 聊天框新增“正在思考…”占位提示，模型首字返回前也有明确反馈。
+- 日志新增 `ai model selected` 和 `ai first event: <耗时>`，便于定位慢模型或网络问题。
+
+### 1.0.5
+
+- 免费模型限流时自动切换模型并用原话重试，不再直接弹出红色 `Rate limit exceeded`。
+- 识别“请求频繁请稍后再试”“429”“quota”“限流”“服务繁忙”等中英文限流提示。
+- 新安装默认优先使用 GLM-5.3-Flash Free。
+- 所有免费模型都不可用时，明确的扫描请求会交给本地确定性扫描引擎执行，扫描不依赖云端模型。
+- 增加限流检测、模型轮换和本地扫描意图解析的单元测试。
 
 ### 1.0.4
 
@@ -595,4 +616,4 @@ MatrixHunter 采用严格的补天数据危害口径。TLS、响应头、CORS、
 
 ---
 
-**MatrixHunter 1.0.4** · 用证据说话，让 AI 做验证，而不是做猜测。
+**MatrixHunter 1.0.6** · 用证据说话，让 AI 做验证，而不是做猜测。

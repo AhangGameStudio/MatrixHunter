@@ -1,4 +1,4 @@
-# Join the MatrixHunter 1.0.4 installer parts.
+# Join the MatrixHunter 1.0.6 installer parts.
 # Gitee limits a single repository file to 50 MB, so the MSI is split into 3 parts.
 # Run this script from the dist directory:
 #   powershell -ExecutionPolicy Bypass -File .\join-installer.ps1
@@ -7,11 +7,11 @@ $ErrorActionPreference = "Stop"
 Set-StrictMode -Version Latest
 
 $dir = $PSScriptRoot
-$out = Join-Path $dir "MatrixHunter-1.0.4.msi"
-$expectedSize = 108703744
-$expectedHash = "3959F901C889CD0408B180CFD0CAF2896893FFFD35CA53820E5F6159346FB3D6"
+$out = Join-Path $dir "MatrixHunter-1.0.6.msi"
+$expectedSize = 108724224
+$expectedHash = "D002E1E97AE33F3949D69531D7804543E9A879262362F8C80656AA2A7F908FB0"
 
-$parts = @(Get-ChildItem -Path $dir -Filter "MatrixHunter-1.0.4.msi.part*" | Sort-Object Name)
+$parts = @(Get-ChildItem -Path $dir -Filter "MatrixHunter-1.0.6.msi.part*" | Sort-Object Name)
 if ($parts.Count -ne 3) {
     throw "Expected 3 parts, found $($parts.Count). Please download all part files."
 }
